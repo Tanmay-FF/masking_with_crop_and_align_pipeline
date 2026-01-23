@@ -200,6 +200,13 @@ The output directory will contain:
 
 ## Credits
 
-Created by **Tanmay Thaker**, Senior MLE at GateKeeper Systems.
+### Developed by:
 
-Special thanks to **Ruo Jia** for Support & Guidance.
+**Tanmay Thaker**
+
+Machine Learning Engineer
+Gatekeeper Systems
+
+## Guided & Supported By:
+* **Ruo Jia**
+---
