@@ -204,11 +204,7 @@ The output directory will contain:
 
 ## Developed by:
 
-* **Tanmay Thaker**
-
-Machine Learning Engineer
-
-Gatekeeper Systems
+* **Tanmay Thaker** (MLE @ GKS)
 
 ## Guided & Supported By:
 * **Ruo Jia**
