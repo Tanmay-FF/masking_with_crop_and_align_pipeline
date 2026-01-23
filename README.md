@@ -25,9 +25,11 @@ The following diagram illustrates the high-level components and their interactio
 
 ## Pipeline Workflow
 
-<div style="max-height: 600px; overflow-y: auto;">
-  <img src="docs_resources/flow_diagram.png" alt="Pipeline Workflow" style="width: 100%; max-width: 800px;">
-</div>
+<details>
+  <summary><strong>Click to view Pipeline Workflow Diagram</strong></summary>
+  <br>
+  <img src="docs_resources/flow_diagram.png" alt="Pipeline Workflow">
+</details>
 
 ### Execution Sequence
 
