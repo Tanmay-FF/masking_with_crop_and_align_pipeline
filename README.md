@@ -25,7 +25,7 @@ The following diagram illustrates the high-level components and their interactio
 
 ## Pipeline Workflow
 
-<img src="docs_resources/flow_diagram.png" width="600" height="500" alt="Pipeline Workflow">
+<img src="docs_resources/flow_diagram.png" width="600" height="2000" alt="Pipeline Workflow">
 
 ### Execution Sequence
 
