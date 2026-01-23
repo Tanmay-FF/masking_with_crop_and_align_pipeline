@@ -17,23 +17,23 @@ The pipeline is designed for high performance, ease of use, and flexibility. It 
 *   **Modular Processing**: Toggle masking and cropping independently via CLI flags.
 *   **Multiple Crop Styles**: Support for modern face alignment standards (`buffalo`, `original_cropping`, `scale_shift`).
 
-## Pipeline Workflow
-
-<img src="docs_resources/flow_diagram.png" width="600" alt="Pipeline Workflow">
-
----
-
 ### System Architecture
 
 The following diagram illustrates the high-level components and their interactions within the system.
 
 ![System Architecture](docs_resources/architecture_diagram.png)
 
+## Pipeline Workflow
+
+<img src="docs_resources/flow_diagram.png" width="600" alt="Pipeline Workflow">
+
 ### Execution Sequence
 
 This sequence diagram details the step-by-step flow of operations for a single image processing cycle.
 
 ![Execution Sequence](docs_resources/sequence_diagram.png)
+
+---
 
 ## Docker Usage (Recommended)
 
