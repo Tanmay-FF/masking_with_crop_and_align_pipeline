@@ -202,13 +202,12 @@ The output directory will contain:
  
 ---
 
-## Credits
+## Developed by:
 
-### Developed by:
-
-**Tanmay Thaker**
+* **Tanmay Thaker**
 
 Machine Learning Engineer
+
 Gatekeeper Systems
 
 ## Guided & Supported By:
