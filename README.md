@@ -19,7 +19,7 @@ The pipeline is designed for high performance, ease of use, and flexibility. It 
 
 ## Pipeline Workflow
 
-![Pipeline Workflow](docs_resources/flow_diagram.png)
+<img src="docs_resources/flow_diagram.png" width="600" alt="Pipeline Workflow">
 
 ---
 
