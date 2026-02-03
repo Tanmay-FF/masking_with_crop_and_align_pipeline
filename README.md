@@ -17,13 +17,7 @@ The pipeline is designed for high performance, ease of use, and flexibility. It 
 *   **Modular Processing**: Toggle masking and cropping independently via CLI flags.
 *   **Multiple Crop Styles**: Support for modern face alignment standards (`buffalo`, `buffalo_chin`, `original_cropping`, `scale_shift`).
 
-## Pipeline Workflow
 
-<details>
-  <summary><strong>Click to view Pipeline Workflow Diagram</strong></summary>
-  <br>
-  <img src="docs_resources/flow_diagram.png" alt="Pipeline Workflow">
-</details>
 
 ---
 
