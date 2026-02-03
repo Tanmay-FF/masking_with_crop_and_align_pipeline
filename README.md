@@ -15,7 +15,17 @@ The pipeline is designed for high performance, ease of use, and flexibility. It 
 *   **Smart Logging**: Automatically logs all operations, successes, and errors to `logs.csv` in the output directory.
 *   **Augmentation Control**: Generate multiple augmented versions per image.
 *   **Modular Processing**: Toggle masking and cropping independently via CLI flags.
-*   **Multiple Crop Styles**: Support for modern face alignment standards (`buffalo`, `original_cropping`, `scale_shift`).
+*   **Multiple Crop Styles**: Support for modern face alignment standards (`buffalo`, `buffalo_chin`, `original_cropping`, `scale_shift`).
+
+## Pipeline Workflow
+
+<details>
+  <summary><strong>Click to view Pipeline Workflow Diagram</strong></summary>
+  <br>
+  <img src="docs_resources/flow_diagram.png" alt="Pipeline Workflow">
+</details>
+
+---
 
 ### System Architecture
 
@@ -141,7 +151,7 @@ python generate_masked_images.py --input <INPUT_PATH> --output <OUTPUT_DIR> [OPT
 | `--n_augmentations` | `int` | `1` | Number of mask augmentations to generate per image. |
 | `--no_mask` | `flag` | `False` | XOR Flag. If set, disables mask augmentation (only crops original images). |
 | `--no_crop` | `flag` | `False` | XOR Flag. If set, disables face cropping (saves full-size augmented images). |
-| `--crop_style` | `str` | `all` | Style of cropping to apply. Choices: `buffalo`, `original_cropping`, `scale_shift`, `all`. |
+| `--crop_style` | `str` | `all` | Style of cropping to apply. Choices: `buffalo`, `buffalo_chin`, `original_cropping`, `scale_shift`, `all`. |
 
 ---
 
@@ -174,7 +184,7 @@ python generate_masked_images.py --input my_dataset/ --output crops_only/ --no_m
 ### 5. Specific Crop Style
 Only use the "Buffalo" style alignment.
 ```bash
-python generate_masked_images.py --input my_dataset/ --crop_style buffalo
+python generate_masked_images.py --input my_dataset/ --crop_style buffalo buffalo_chin
 ```
 
 ---

@@ -59,11 +59,23 @@ class FaceCropper:
     _BUFFALO_SHIFT_Y     = 0.16
     _BUFFALO_IMG_SIZE    = 112
 
+    # --------------------------------------------------------------------------
+    # Buffalo Chin Style Configuration (Class Attributes)
+    # --------------------------------------------------------------------------
+    _BUFFALO_CHIN_SCALE_RATIO = 0.6
+    _BUFFALO_CHIN_SHIFT_Y     = 0.12
+
     # Calculate Destination Points Once
     _base_pts = _MINMAX_TEMPLATE[_INNER_EYES_AND_BOTTOM_LIP].copy()
     _base_pts = (_base_pts - 0.5) * _BUFFALO_SCALE_RATIO + 0.5
     _base_pts[:, 1] += _BUFFALO_SHIFT_Y
     _BUFFALO_DST_PTS = _base_pts * _BUFFALO_IMG_SIZE
+
+    # Calculate Destination Points for Buffalo Chin
+    _base_pts_chin = _MINMAX_TEMPLATE[_INNER_EYES_AND_BOTTOM_LIP].copy()
+    _base_pts_chin = (_base_pts_chin - 0.5) * _BUFFALO_CHIN_SCALE_RATIO + 0.5
+    _base_pts_chin[:, 1] += _BUFFALO_CHIN_SHIFT_Y
+    _BUFFALO_CHIN_DST_PTS = _base_pts_chin * _BUFFALO_IMG_SIZE
     # --------------------------------------------------------------------------
 
     def __init__(self, detector_path='assets/models/onnx_models/RFB_finetuned_with_postprocessing.onnx', 
@@ -174,6 +186,21 @@ class FaceCropper:
             print(f"Alignment failed: {e}")
             return cv2.resize(face_crop, (112, 112))
 
+    def _align_buffalo_chin(self, img, npLandmarks, face_crop):
+        """
+        Buffalo Chin Style: Scale 0.6, Shift 0.12, Similarity Transform (skimage)
+        """
+        try:
+            tform = trans.SimilarityTransform()
+            tform.estimate(npLandmarks, self._BUFFALO_CHIN_DST_PTS)
+            M = tform.params[0:2, :]
+            
+            # Warp with REFLECTION to fix black pixels
+            return cv2.warpAffine(img, M, (self._BUFFALO_IMG_SIZE, self._BUFFALO_IMG_SIZE), borderMode=cv2.BORDER_REFLECT)
+        except Exception as e:
+            print(f"Alignment failed: {e}")
+            return cv2.resize(face_crop, (112, 112))
+
     def _align_production_original(self, img, npLandmarks, face_crop):
         """
         Production Original: No extra scale/shift, Affine Transform (getAffineTransform)
@@ -213,29 +240,41 @@ class FaceCropper:
     def align(self, img, bbox, style='all'):
         """
         Perform alignment based on style.
-        style: 'buffalo', 'original_cropping', 'scale_shift', or 'all'
+        style: list or single string. 
+               Choices: 'buffalo', 'buffalo_chin', 'original_cropping', 'scale_shift', 'all'
         Returns a dict of {style_name: cropped_img}
         """
         results = {}
         
-        # Buffalo Style - Margin 0
-        if style == 'buffalo' or style == 'all':
-            res = self._get_landmarks(img, bbox, margin=0)
-            if res is not None:
-                npLandmarks, face_crop = res
-                results['buffalo'] = self._align_buffalo(img, npLandmarks, face_crop)
+        # Normalize input to list
+        if isinstance(style, str):
+            req_styles = [style]
+        elif isinstance(style, (list, tuple)):
+            req_styles = style
+        else:
+            req_styles = ['all']
+
+        # Helper
+        def is_req(s): 
+            return 'all' in req_styles or s in req_styles
+
+        # All current styles use margin=0. Compute once.
+        # If we had styles with different margins, we'd need to compute per margin.
+        res = self._get_landmarks(img, bbox, margin=0)
         
-        # Production Styles - Margin 0 (for both Original and Scale/Shift)
-        if style in ['original_cropping', 'scale_shift', 'all']:
-            # Only compute if we need original or scale_shift or both
-            res = self._get_landmarks(img, bbox, margin=0)
-            if res is not None:
-                npLandmarks, face_crop = res
+        if res is not None:
+            npLandmarks, face_crop = res
+
+            if is_req('buffalo'):
+                results['buffalo'] = self._align_buffalo(img, npLandmarks, face_crop)
+
+            if is_req('buffalo_chin'):
+                results['buffalo_chin'] = self._align_buffalo_chin(img, npLandmarks, face_crop)
+            
+            if is_req('original_cropping'):
+                results['original_cropping'] = self._align_production_original(img, npLandmarks, face_crop)
                 
-                if style == 'original_cropping' or style == 'all':
-                    results['original_cropping'] = self._align_production_original(img, npLandmarks, face_crop)
-                    
-                if style == 'scale_shift' or style == 'all':
-                    results['scale_shift'] = self._align_production_scale_shift(img, npLandmarks, face_crop)
+            if is_req('scale_shift'):
+                results['scale_shift'] = self._align_production_scale_shift(img, npLandmarks, face_crop)
             
         return results

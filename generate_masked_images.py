@@ -323,7 +323,7 @@ if __name__ == '__main__':
     parser.add_argument('--n_augmentations', type=int, default=1, help="Number of variations per image")
     parser.add_argument('--no_mask', action='store_true', help="Disable masking")
     parser.add_argument('--no_crop', action='store_true', help="Disable cropping and alignment")
-    parser.add_argument('--crop_style', type=str, default='all', choices=['buffalo', 'original_cropping', 'scale_shift', 'all'], help="Style of cropping to apply")
+    parser.add_argument('--crop_style', type=str, nargs='+', default=['all'], choices=['buffalo', 'buffalo_chin', 'original_cropping', 'scale_shift', 'all'], help="Style of cropping to apply")
 
     args = parser.parse_args()
     
